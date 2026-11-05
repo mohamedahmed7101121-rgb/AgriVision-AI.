@@ -1,0 +1,11 @@
+venv/
+.venv/
+__pycache__/
+.pytest_cache/
+.idea/
+.env
+data/
+instance/
+.DS_Store
+artifacts/*.h5
+artifacts/*.weights.h5
