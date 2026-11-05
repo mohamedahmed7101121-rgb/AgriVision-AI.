@@ -5,6 +5,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 import numpy as np
+import pandas as pd
 import streamlit as st
 import tensorflow as tf
 from PIL import Image, UnidentifiedImageError
@@ -39,9 +40,6 @@ def init_db():
 
 init_db()
 
-def allowed_file(filename):
-    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
-
 @st.cache_resource
 def load_model_and_classes():
     if not MODEL_PATH.exists() or not CLASSES_PATH.exists():
@@ -53,7 +51,7 @@ def load_model_and_classes():
         if not isinstance(classes, list) or not classes:
             raise ValueError("classes.json must contain a non-empty JSON list.")
         return model, classes
-    except Exception as exc:
+    except Exception:
         return None, None
 
 MODEL, CLASSES = load_model_and_classes()
@@ -145,7 +143,6 @@ elif page == "History":
         ).fetchall()
         
     if rows:
-        import pandas as pd
         data = []
         for r in rows:
             data.append({
