@@ -4,4 +4,4 @@ Pillow
 numpy
 pandas
 werkzeug
-gdown
+requests
