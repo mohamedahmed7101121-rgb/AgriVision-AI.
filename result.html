@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scan result | AgriVision AI</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"><link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet"></head>
+<body><nav class="navbar navbar-dark site-nav"><div class="container"><a class="navbar-brand fw-bold" href="/">🌿 AgriVision AI</a><a class="nav-link text-white" href="/history">History</a></div></nav>
+<main class="container py-5"><div class="card app-card p-4 p-md-5 mx-auto result-card">
+<span class="eyebrow">MODEL OUTPUT</span><h1 class="h2 mt-2">Prediction result</h1>
+<div class="result-label my-3">{{ label }}</div>
+<p class="text-muted">Model confidence score</p><div class="progress" role="progressbar" aria-label="Confidence" aria-valuenow="{{ confidence * 100 }}" aria-valuemin="0" aria-valuemax="100"><div class="progress-bar bg-success" style="width: {{ confidence * 100 }}%"></div></div>
+<p class="fs-5 mt-2 fw-semibold">{{ confidence|percent }}</p>
+<div class="alert alert-warning mt-3">This is a model prediction, not a confirmed diagnosis. The confidence score may be poorly calibrated and does not guarantee correctness. Use expert advice before treatment.</div>
+<a class="btn btn-success mt-2" href="/">Analyze another image</a><a class="btn btn-outline-secondary mt-2" href="/history">View scan history</a>
+</div></main></body></html>

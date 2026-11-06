@@ -1,0 +1,14 @@
+:root { --green: #176b46; --pale: #edf7f0; --ink: #183328; }
+body { background: #f6f9f6; color: var(--ink); }
+.site-nav { background: #124d35; }
+.hero { background: linear-gradient(135deg, #e4f4e8, #f8fbf8); border: 1px solid #d5eadb; border-radius: 1.4rem; }
+.eyebrow { color: #176b46; font-weight: 800; font-size: .78rem; letter-spacing: .12em; }
+.app-card { border: 1px solid #e0e9e2; border-radius: 1.1rem; box-shadow: 0 8px 28px rgba(24, 51, 40, .05); }
+.upload-box { border: 2px dashed #a9cdb4; border-radius: 1rem; background: #fbfefb; cursor: pointer; }
+.upload-box:hover { background: var(--pale); }
+.btn-success { background: var(--green); border-color: var(--green); }
+.step-list li { padding: .35rem 0; }
+.result-card { max-width: 720px; }
+.result-label { font-size: clamp(1.4rem, 4vw, 2.2rem); font-weight: 750; overflow-wrap: anywhere; }
+.progress { height: .8rem; background: #e2eae4; }
+table { font-size: .94rem; }
