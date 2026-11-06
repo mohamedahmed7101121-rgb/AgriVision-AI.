@@ -22,7 +22,7 @@ ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "webp"}
 MAX_IMAGE_BYTES = 5 * 1024 * 1024
 IMAGE_SIZE = (224, 224)
 
-# File ID من رابط Google Drive الخاص بك
+# File ID الخاص بملفك على Google Drive
 GDRIVE_FILE_ID = "1f5BZlbxDGU2PTPGTNJo0fJrljU3pQgJM"
 
 st.set_page_config(page_title="AgriVision AI | Plant Health Scanner", page_icon="🌿", layout="centered")
@@ -57,10 +57,14 @@ init_db()
 def load_model_and_classes():
     ARTIFACTS_DIR.mkdir(parents=True, exist_ok=True)
     
-    # تحميل الملف تلقائياً
+    # تنزيل النموذج إذا لم يكن موجوداً
     if not MODEL_PATH.exists():
         with st.spinner("Downloading trained model from Google Drive... Please wait..."):
-            download_file_from_google_drive(GDRIVE_FILE_ID, str(MODEL_PATH))
+            try:
+                download_file_from_google_drive(GDRIVE_FILE_ID, str(MODEL_PATH))
+            except Exception as e:
+                st.error(f"Failed to download model: {e}")
+                return None, None
 
     if not MODEL_PATH.exists() or not CLASSES_PATH.exists():
         return None, None
@@ -97,7 +101,7 @@ if page == "Scanner":
     st.markdown("A smarter first look at plant leaf health. Upload a clear leaf image to receive a model-generated class prediction and confidence score.")
     
     if MODEL is None:
-        st.warning("⚠️ Model status: Model file is downloading or missing.")
+        st.warning("⚠️ Model status: Model file is downloading or missing. Please check your Google Drive permissions.")
     else:
         st.success("✅ Model loaded successfully.")
 
