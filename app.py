@@ -4,9 +4,9 @@ import sqlite3
 from datetime import datetime, timezone
 from pathlib import Path
 
-import gdown
 import numpy as np
 import pandas as pd
+import requests
 import streamlit as st
 import tensorflow as tf
 from PIL import Image
@@ -27,6 +27,16 @@ GDRIVE_FILE_ID = "1f5BZlbxDGU2PTPGTNJo0fJrljU3pQgJM"
 
 st.set_page_config(page_title="AgriVision AI | Plant Health Scanner", page_icon="🌿", layout="centered")
 
+def download_file_from_google_drive(file_id, destination):
+    URL = "https://docs.google.com/uc?export=download"
+    session = requests.Session()
+    response = session.get(URL, params={'id': file_id, 'confirm': 't'}, stream=True)
+    
+    with open(destination, "wb") as f:
+        for chunk in response.iter_content(32768):
+            if chunk:
+                f.write(chunk)
+
 def init_db():
     DB_PATH.parent.mkdir(parents=True, exist_ok=True)
     with sqlite3.connect(DB_PATH) as conn:
@@ -45,14 +55,12 @@ init_db()
 
 @st.cache_resource
 def load_model_and_classes():
-    # إنشاء مجلد artifacts تلقائياً
     ARTIFACTS_DIR.mkdir(parents=True, exist_ok=True)
     
-    # تحميل ملف النموذج تلقائياً من Google Drive إذا لم يكن موجوداً محلياً
+    # تحميل الملف تلقائياً
     if not MODEL_PATH.exists():
-        with st.spinner("Downloading trained model file from Google Drive... Please wait..."):
-            url = f"https://drive.google.com/uc?id={GDRIVE_FILE_ID}"
-            gdown.download(url, str(MODEL_PATH), quiet=False)
+        with st.spinner("Downloading trained model from Google Drive... Please wait..."):
+            download_file_from_google_drive(GDRIVE_FILE_ID, str(MODEL_PATH))
 
     if not MODEL_PATH.exists() or not CLASSES_PATH.exists():
         return None, None
